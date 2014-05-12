@@ -10,6 +10,7 @@
     <File Name="wxCrafterCBSettings.cpp"/>
     <File Name="wxcHelper.h"/>
     <File Name="wxcHelper.cpp"/>
+    <File Name="TODO.TXT"/>
   </VirtualDirectory>
   <Dependencies Name="Debug">
     <Project Name="wxcLib"/>

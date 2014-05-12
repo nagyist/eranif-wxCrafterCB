@@ -1,0 +1,1 @@
+./Debug/cJSON.o ./Debug/clSocketBase.o ./Debug/clSocketClient.o ./Debug/clSocketServer.o ./Debug/json_node.o ./Debug/wxcNetworkCommand.o ./Debug/wxcConnector.o ./Debug/wxcNetworkReply.o ./Debug/wxcNetworkReplyThread.o ./Debug/wxcReplyEventData.o   

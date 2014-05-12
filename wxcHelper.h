@@ -45,5 +45,14 @@ public:
      * @param files [output]
      */
     static void GetAllFiles( FilesList &files, const wxString &filterExt = wxEmptyString );
+    
+    /**
+     * @brief extract a file from Zip archive
+     * @param zipPath zip file path
+     * @param filename the file that we want to extract
+     * @param targetDir destination folder for the extracted file
+     * @param targetFileName [output]
+     */
+    static bool ExtractFileFromZip(const wxString& zipPath, const wxString& filename, const wxString& targetDir, wxString &targetFileName);
 };
 #endif // WXCHELPER_H

@@ -6,6 +6,42 @@
 #include <projectmanager.h>
 #include <globals.h>
 #include <wx/filefn.h>
+#include <wx/zipstrm.h>
+#include <wx/wfstream.h>
+
+bool wxcHelper::ExtractFileFromZip(const wxString& zipPath, const wxString& filename, const wxString& targetDir, wxString &targetFileName)
+{
+    wxZipEntry *       entry(NULL);
+    wxFFileInputStream in(zipPath);
+    wxZipInputStream   zip(in);
+
+    // Make sure the target directory exists...
+    wxFileName::Mkdir(targetDir, 0777, wxPATH_MKDIR_FULL);
+
+    wxString lowerCaseName(filename);
+    lowerCaseName.MakeLower();
+
+    entry = zip.GetNextEntry();
+    while ( entry ) {
+        wxString name = entry->GetName();
+        name.MakeLower();
+        name.Replace(wxT("\\"), wxT("/"));
+
+        if (name == lowerCaseName) {
+            name.Replace(wxT("/"), wxT("_"));
+            targetFileName = wxString::Format(wxT("%s/%s"), targetDir.c_str(), name.c_str());
+            wxFFileOutputStream out(targetFileName);
+            zip.Read(out);
+            out.Close();
+            delete entry;
+            return true;
+        }
+
+        delete entry;
+        entry = zip.GetNextEntry();
+    }
+    return false;
+}
 
 bool wxcHelper::CreateEmptyFile( const wxFileName& fn )
 {
@@ -18,7 +54,7 @@ bool wxcHelper::CreateEmptyFile( const wxFileName& fn )
             return false;
         }
     }
-    
+
     // Create an empty file
     wxFFile fp(fn.GetFullPath(), wxT("w+b"));
     if( !fp.IsOpened() ) {
@@ -41,15 +77,15 @@ void wxcHelper::AddFilesToProject(cbProject* proj, const std::vector<wxFileName>
 {
     wxFileName folderPath(proj->GetFilename());
     proj->BeginAddFiles();
-    
+
     for(size_t i=0; i<files.size(); ++i) {
         wxFileName fn = files.at(i);
         fn.MakeRelativeTo( folderPath.GetPath() );
         ProjectFile* pf(NULL);
         for(int targetIndex=0; targetIndex<proj->GetBuildTargetsCount(); ++targetIndex) {
-             pf = proj->AddFile( targetIndex, fn.GetFullPath(), compile, compile );
+            pf = proj->AddFile( targetIndex, fn.GetFullPath(), compile, compile );
         }
-        
+
         if ( pf ) {
             // This is the only sane way I found to add the file all build targets:
             // clear the array and then iterate them one by one and add them
@@ -60,7 +96,7 @@ void wxcHelper::AddFilesToProject(cbProject* proj, const std::vector<wxFileName>
         }
     }
     proj->EndAddFiles();
-    
+
     // Save and rebuild the project tree
     Manager::Get()->GetProjectManager()->SaveAllProjects();
     Manager::Get()->GetProjectManager()->GetUI().RebuildTree();
@@ -83,7 +119,7 @@ void wxcHelper::GetAllFiles(FilesList& files, const wxString& filterExt)
 {
     wxString filterExtLowerCase = filterExt;
     filterExtLowerCase.MakeLower();
-    
+
     ProjectsArray* projects = Manager::Get()->GetProjectManager()->GetProjects();
     for ( size_t i=0; i<projects->GetCount(); ++i ) {
         cbProject* pProj = projects->Item(i);

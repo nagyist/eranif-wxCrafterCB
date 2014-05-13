@@ -14,10 +14,10 @@
 				<Compiler>
 					<Add option="-O0" />
                     <Add option="-g" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=gcc_dll\mswud --unicode=yes --debug=yes --cxxflags`" />
+					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswud --unicode=yes --debug=yes --cxxflags`" />
 				</Compiler>
 				<Linker>
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=gcc_dll\mswud --unicode=yes --debug=yes --libs`" />
+					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswud --unicode=yes --debug=yes --libs ${WX_COMPONENTS}`" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -27,11 +27,11 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=gcc_dll\mswu --unicode=yes --debug=no --cxxflags`" />
+					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswu --unicode=yes --debug=no --cxxflags`" />
 				</Compiler>
 				<Linker>
 					<Add option="-s" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=gcc_dll\mswu --unicode=yes --debug=no --libs`" />
+					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswu --unicode=yes --debug=no --libs ${WX_COMPONENTS}`" />
 				</Linker>
 			</Target>
 		</Build>

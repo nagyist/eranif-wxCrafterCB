@@ -235,3 +235,6 @@ void wxCrafterTab::OnItemMenu(wxTreeEvent& event)
     
     m_treeCtrl->PopupMenu( &menu );
 }
+void wxCrafterTab::OnNewCBProject(wxCommandEvent& event)
+{
+}

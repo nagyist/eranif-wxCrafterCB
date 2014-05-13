@@ -31,6 +31,7 @@ public:
     virtual ~wxCrafterTab();
 
 protected:
+    virtual void OnNewCBProject(wxCommandEvent& event);
     virtual void OnItemActivated(wxTreeEvent& event);
     virtual void OnItemMenu(wxTreeEvent& event);
     virtual void OnNewWxCrafterFileUI(wxUpdateUIEvent& event);

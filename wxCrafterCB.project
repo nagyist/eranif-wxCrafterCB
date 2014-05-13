@@ -15,6 +15,24 @@
   <Dependencies Name="Debug">
     <Project Name="wxcLib"/>
   </Dependencies>
+  <VirtualDirectory Name="wxcrafter">
+    <File Name="UI.wxcp"/>
+    <VirtualDirectory Name="resources">
+      <File Name="UI_wxcraftercb_bitmaps.cpp"/>
+    </VirtualDirectory>
+    <VirtualDirectory Name="base">
+      <File Name="UI.h"/>
+      <File Name="UI.cpp"/>
+    </VirtualDirectory>
+  </VirtualDirectory>
+  <VirtualDirectory Name="UI">
+    <File Name="NewWxCrafterFileDlg.h"/>
+    <File Name="NewWxCrafterFileDlg.cpp"/>
+    <File Name="wxCrafterTab.cpp"/>
+    <File Name="wxCrafterTab.h"/>
+    <File Name="NewCodeBlocksProjectWizard.h"/>
+    <File Name="NewCodeBlocksProjectWizard.cpp"/>
+  </VirtualDirectory>
   <Settings Type="Dynamic Library">
     <GlobalSettings>
       <Compiler Options="" C_Options="" Assembler="">
@@ -50,8 +68,8 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
       </Debugger>
       <PreBuild/>
       <PostBuild>
-        <Command Enabled="yes">zip -j9 wxCrafterCB.zip manifest.xml</Command>
-        <Command Enabled="yes">zip -j9 wxCrafterCB.cbplugin $(IntermediateDirectory)/$(ProjectName).dll wxCrafterCB.zip</Command>
+        <Command Enabled="yes">zip -j wxCrafterCB.zip manifest.xml Resources/Templates/wxFrameApp/*</Command>
+        <Command Enabled="no">#zip -j wxCrafterCB.cbplugin $(IntermediateDirectory)/$(ProjectName).dll wxCrafterCB.zip</Command>
         <Command Enabled="yes">cp $(IntermediateDirectory)/$(ProjectName).dll $(CB_SRC_DIR)\src\devel\share\CodeBlocks\plugins</Command>
         <Command Enabled="yes">cp wxCrafterCB.zip $(CB_SRC_DIR)\src\devel\share\CodeBlocks</Command>
       </PostBuild>
@@ -115,20 +133,4 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
       </Completion>
     </Configuration>
   </Settings>
-  <VirtualDirectory Name="wxcrafter">
-    <File Name="UI.wxcp"/>
-    <VirtualDirectory Name="resources">
-      <File Name="UI_wxcraftercb_bitmaps.cpp"/>
-    </VirtualDirectory>
-    <VirtualDirectory Name="base">
-      <File Name="UI.h"/>
-      <File Name="UI.cpp"/>
-    </VirtualDirectory>
-  </VirtualDirectory>
-  <VirtualDirectory Name="UI">
-    <File Name="NewWxCrafterFileDlg.h"/>
-    <File Name="NewWxCrafterFileDlg.cpp"/>
-    <File Name="wxCrafterTab.cpp"/>
-    <File Name="wxCrafterTab.h"/>
-  </VirtualDirectory>
 </CodeLite_Project>

@@ -28,18 +28,24 @@
 #include <wx/arrstr.h>
 #include <wx/filepicker.h>
 #include <wx/button.h>
+#include <wx/wizard.h>
+#include <vector>
+#include <wx/statbox.h>
+#include <wx/textctrl.h>
 
 class wxCrafterTabBase : public wxPanel
 {
 protected:
     enum {
-        ID_TOOL_NEW_RESOURCE = 1001,
+        ID_TOOL_NEW_PROJECT = 1001,
+        ID_TOOL_NEW_RESOURCE = 1002,
     };
 protected:
     wxAuiToolBar* m_auibar;
     wxTreeCtrl* m_treeCtrl;
 
 protected:
+    virtual void OnNewCBProject(wxCommandEvent& event) { event.Skip(); }
     virtual void OnNewWxCrafterFile(wxCommandEvent& event) { event.Skip(); }
     virtual void OnNewWxCrafterFileUI(wxUpdateUIEvent& event) { event.Skip(); }
     virtual void OnItemActivated(wxTreeEvent& event) { event.Skip(); }
@@ -89,6 +95,32 @@ protected:
 public:
     NewWxCrafterFileDlgBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New wxCrafter Resource"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
     virtual ~NewWxCrafterFileDlgBase();
+};
+
+
+class NewCodeBlocksProjectWizardBase : public wxWizard
+{
+protected:
+    std::vector<wxWizardPageSimple*> m_pages;
+
+    wxWizardPageSimple* m_wizardPage82;
+    wxStaticText* m_staticText98;
+    wxStaticText* m_staticText106;
+    wxTextCtrl* m_textCtrlProjectName;
+    wxStaticText* m_staticText102;
+    wxDirPickerCtrl* m_dirPickerProjectFolder;
+    wxStaticText* m_staticTextProjectPathPreview;
+    wxWizardPageSimple* m_wizardPage78;
+    wxStaticText* m_staticText92;
+
+protected:
+    virtual void OnProjectNameUpdated(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProjectFolderPathChanged(wxFileDirPickerEvent& event) { event.Skip(); }
+
+public:
+    NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Code::Blocks Project"), const wxBitmap& bmp = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
+    wxWizardPageSimple* GetFirstPage() const { if(!m_pages.empty()) return m_pages.at(0); return NULL; }
+    virtual ~NewCodeBlocksProjectWizardBase();
 };
 
 #endif

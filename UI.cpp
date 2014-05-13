@@ -31,7 +31,9 @@ wxCrafterTabBase::wxCrafterTabBase(wxWindow* parent, wxWindowID id, const wxPoin
     
     boxSizer2->Add(m_auibar, 0, wxEXPAND, 5);
     
-    m_auibar->AddTool(ID_TOOL_NEW_RESOURCE, _("New Form..."), wxXmlResource::Get()->LoadBitmap(wxT("new-resource")), wxNullBitmap, wxITEM_NORMAL, _("Create New wxCrafter Project"), _("Create New wxCrafter Project"), NULL);
+    m_auibar->AddTool(ID_TOOL_NEW_PROJECT, _("Create new Code::Blocks Project"), wxXmlResource::Get()->LoadBitmap(wxT("project")), wxNullBitmap, wxITEM_NORMAL, _("Create new Code::Blocks Project with wxCrafter"), _("Create new Code::Blocks Project with wxCrafter"), NULL);
+    
+    m_auibar->AddTool(ID_TOOL_NEW_RESOURCE, _("Add wxCrafter file to a project"), wxXmlResource::Get()->LoadBitmap(wxT("new-resource")), wxNullBitmap, wxITEM_NORMAL, _("Add wxCrafter file to a project"), _("Add wxCrafter file to a project"), NULL);
     m_auibar->Realize();
     
     m_treeCtrl = new wxTreeCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1,-1), wxTR_DEFAULT_STYLE|wxTR_HIDE_ROOT);
@@ -44,6 +46,7 @@ wxCrafterTabBase::wxCrafterTabBase(wxWindow* parent, wxWindowID id, const wxPoin
     }
     Centre(wxBOTH);
     // Connect events
+    this->Connect(ID_TOOL_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewCBProject), NULL, this);
     this->Connect(ID_TOOL_NEW_RESOURCE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewWxCrafterFile), NULL, this);
     this->Connect(ID_TOOL_NEW_RESOURCE, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterTabBase::OnNewWxCrafterFileUI), NULL, this);
     m_treeCtrl->Connect(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler(wxCrafterTabBase::OnItemActivated), NULL, this);
@@ -53,6 +56,7 @@ wxCrafterTabBase::wxCrafterTabBase(wxWindow* parent, wxWindowID id, const wxPoin
 
 wxCrafterTabBase::~wxCrafterTabBase()
 {
+    this->Disconnect(ID_TOOL_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewCBProject), NULL, this);
     this->Disconnect(ID_TOOL_NEW_RESOURCE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewWxCrafterFile), NULL, this);
     this->Disconnect(ID_TOOL_NEW_RESOURCE, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterTabBase::OnNewWxCrafterFileUI), NULL, this);
     m_treeCtrl->Disconnect(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler(wxCrafterTabBase::OnItemActivated), NULL, this);
@@ -213,5 +217,109 @@ NewWxCrafterFileDlgBase::~NewWxCrafterFileDlgBase()
 {
     m_choiceProjects->Disconnect(wxEVT_COMMAND_CHOICE_SELECTED, wxCommandEventHandler(NewWxCrafterFileDlgBase::OnProjectSelected), NULL, this);
     m_buttonOK->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewWxCrafterFileDlgBase::OnButtonOKUI), NULL, this);
+    
+}
+
+NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxBitmap& bmp, const wxPoint& pos, long style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxC8968InitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    Create(parent, id, title, wxNullBitmap, pos, style);
+    
+    m_wizardPage82 = new wxWizardPageSimple(this, NULL, NULL, wxNullBitmap);
+    m_pages.push_back(m_wizardPage82);
+    
+    wxBoxSizer* boxSizer86 = new wxBoxSizer(wxVERTICAL);
+    m_wizardPage82->SetSizer(boxSizer86);
+    
+    wxStaticBoxSizer* staticBoxSizer96 = new wxStaticBoxSizer( new wxStaticBox(m_wizardPage82, wxID_ANY, wxT("")), wxVERTICAL);
+    
+    boxSizer86->Add(staticBoxSizer96, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticText98 = new wxStaticText(m_wizardPage82, wxID_ANY, _("Project Details"), wxDefaultPosition, wxSize(-1,-1), 0);
+    wxFont m_staticText98Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    m_staticText98Font.SetWeight(wxFONTWEIGHT_BOLD);
+    m_staticText98->SetFont(m_staticText98Font);
+    
+    staticBoxSizer96->Add(m_staticText98, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+    
+    wxFlexGridSizer* flexGridSizer100 = new wxFlexGridSizer(0, 2, 0, 0);
+    flexGridSizer100->SetFlexibleDirection( wxBOTH );
+    flexGridSizer100->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer100->AddGrowableCol(1);
+    
+    boxSizer86->Add(flexGridSizer100, 1, wxALL|wxEXPAND, 5);
+    
+    m_staticText106 = new wxStaticText(m_wizardPage82, wxID_ANY, _("Name:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer100->Add(m_staticText106, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    
+    m_textCtrlProjectName = new wxTextCtrl(m_wizardPage82, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), 0);
+    m_textCtrlProjectName->SetToolTip(_("Set the project name"));
+    m_textCtrlProjectName->SetFocus();
+    
+    flexGridSizer100->Add(m_textCtrlProjectName, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticText102 = new wxStaticText(m_wizardPage82, wxID_ANY, _("Project Folder:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer100->Add(m_staticText102, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    
+    m_dirPickerProjectFolder = new wxDirPickerCtrl(m_wizardPage82, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_DEFAULT_STYLE|wxDIRP_USE_TEXTCTRL);
+    m_dirPickerProjectFolder->SetToolTip(_("Select the project folder"));
+    
+    flexGridSizer100->Add(m_dirPickerProjectFolder, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticTextProjectPathPreview = new wxStaticText(m_wizardPage82, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    boxSizer86->Add(m_staticTextProjectPathPreview, 0, wxALL|wxEXPAND, 5);
+    
+    m_wizardPage78 = new wxWizardPageSimple(this, NULL, NULL, wxNullBitmap);
+    m_pages.push_back(m_wizardPage78);
+    if (m_pages.size() > 1) {
+        for(size_t i=1; i<m_pages.size(); i++) {
+            wxWizardPageSimple::Chain(m_pages.at(i-1), m_pages.at(i));
+        }
+    }
+    GetPageAreaSizer()->Add(m_pages.at(0));
+    
+    wxBoxSizer* boxSizer84 = new wxBoxSizer(wxVERTICAL);
+    m_wizardPage78->SetSizer(boxSizer84);
+    
+    wxStaticBoxSizer* staticBoxSizer90 = new wxStaticBoxSizer( new wxStaticBox(m_wizardPage78, wxID_ANY, wxT("")), wxVERTICAL);
+    
+    boxSizer84->Add(staticBoxSizer90, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticText92 = new wxStaticText(m_wizardPage78, wxID_ANY, _("Configure wxWidgets"), wxDefaultPosition, wxSize(-1,-1), 0);
+    wxFont m_staticText92Font = wxSystemSettings::GetFont(wxSYS_DEFAULT_GUI_FONT);
+    m_staticText92Font.SetWeight(wxFONTWEIGHT_BOLD);
+    m_staticText92->SetFont(m_staticText92Font);
+    
+    staticBoxSizer90->Add(m_staticText92, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+    
+    wxFlexGridSizer* flexGridSizer94 = new wxFlexGridSizer(0, 2, 0, 0);
+    flexGridSizer94->SetFlexibleDirection( wxBOTH );
+    flexGridSizer94->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    
+    boxSizer84->Add(flexGridSizer94, 1, wxALL|wxEXPAND, 5);
+    
+    SetSizeHints(500,300);
+    if ( GetSizer() ) {
+         GetSizer()->Fit(this);
+    }
+    Centre(wxBOTH);
+    // Connect events
+    m_textCtrlProjectName->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
+    m_dirPickerProjectFolder->Connect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
+    
+}
+
+NewCodeBlocksProjectWizardBase::~NewCodeBlocksProjectWizardBase()
+{
+    m_textCtrlProjectName->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
+    m_dirPickerProjectFolder->Disconnect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
     
 }

@@ -17,7 +17,6 @@ wxcConnector::wxcConnector()
     : m_wxcrafterProcess(NULL)
     , m_networkThread(NULL)
 {
-
 #ifdef __WXMSW__
     static bool bInitialized = false;
     if ( !bInitialized ) {
@@ -29,8 +28,6 @@ wxcConnector::wxcConnector()
         bInitialized = true;
     }
 #endif
-
-    Connect(wxcEVT_NET_REPLY_FILES_GENERATED, wxCommandEventHandler(wxcConnector::OnFilesGenerated), NULL, this);
 }
 
 wxcConnector::~wxcConnector()

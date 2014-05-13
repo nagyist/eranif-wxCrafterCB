@@ -1,3 +1,2 @@
-- When removing wxcp file from the workspace, remote it from the wxCrafter view
-- Nice to have: add a button that creates a ready to use project with wxCrafter resource
+- When removing wxcp file from the workspace, remove it from the wxCrafter view
 - Prepare an installer for Windows

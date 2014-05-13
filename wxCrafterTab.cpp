@@ -8,6 +8,8 @@
 #include "wxcHelper.h"
 #include <cbproject.h>
 #include <wx/menu.h>
+#include "NewCodeBlocksProjectWizard.h"
+#include <configmanager.h>
 
 class wxCrafterTabItemData : public wxTreeItemData
 {
@@ -235,6 +237,66 @@ void wxCrafterTab::OnItemMenu(wxTreeEvent& event)
     
     m_treeCtrl->PopupMenu( &menu );
 }
+
 void wxCrafterTab::OnNewCBProject(wxCommandEvent& event)
 {
+    NewCodeBlocksProjectWizard wiz(NULL);
+    if ( wiz.RunWizard( wiz.GetFirstPage() ) ) {
+        // create the project
+        ProjectInfo pi = wiz.GetProjectDetails();
+        DoCreateProject( pi );
+    }
+}
+
+void wxCrafterTab::DoCreateProject(const ProjectInfo& projectInfo)
+{
+    // Create the project folder
+    wxFileName::Mkdir( projectInfo.cbp_path.GetPath(), 0777, wxPATH_MKDIR_FULL);
+    
+    // Get the resources Zip file
+    wxString dataFolder = ConfigManager::GetDataFolder();
+    wxFileName zipFile(dataFolder, wxT("wxCrafterCB.zip"));
+    
+    // Extract the files to this folder
+    wxString dummy;
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("main.cpp"),                 projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("MainFrame.cpp"),            projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("MainFrame.h"),              projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter.cpp"),            projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter.h"),              projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter.wxcp"),           projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter_bitmaps.cpp"),    projectInfo.cbp_path.GetPath(), dummy);
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxCrafterCBTemplate.cbp"),  projectInfo.cbp_path.GetPath(), dummy);
+    
+    // Perform a simple string replace on the cbp file
+    wxFileName projectFile(projectInfo.cbp_path.GetPath(), wxT("wxCrafterCBTemplate.cbp"));
+    wxString fileContent;
+    wxcHelper::ReadFileContent( projectFile.GetFullPath(), fileContent );
+    
+    // Replace the place holders
+    wxString buildType, components;
+    if ( projectInfo.wx_build_type.Contains(wxT("Dynamic")) ) {
+        buildType = wxT("gcc_dll");
+        
+    } else {
+        buildType = wxT("gcc_lib");
+    }
+    
+    for(size_t i=0; i<projectInfo.wx_components.GetCount(); ++i) {
+        components << projectInfo.wx_components.Item(i) << wxT(",");
+    }
+    if ( !components.IsEmpty() ) {
+        components.RemoveLast();
+    }
+    
+    fileContent.Replace(wxT("${PROJECT_NAME}"),  projectInfo.cbp_path.GetName());
+    fileContent.Replace(wxT("${WX_BUILD_TYPE}"), buildType);
+    fileContent.Replace(wxT("${WX_PREFIX}"),     projectInfo.wx_prefix);
+    fileContent.Replace(wxT("${WX_COMPONENTS}"), components);
+    wxcHelper::WriteFileContent( projectFile.GetFullPath(), fileContent );
+    
+    ::wxRenameFile(projectFile.GetFullPath(), projectInfo.cbp_path.GetFullPath());
+    
+    // And finally, load the project
+    Manager::Get()->GetProjectManager()->LoadProject( projectInfo.cbp_path.GetFullPath() );
 }

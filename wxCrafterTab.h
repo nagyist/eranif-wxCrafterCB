@@ -2,6 +2,7 @@
 #define WXCRAFTERTAB_H
 #include "UI.h"
 #include <sdk_events.h>
+#include <NewCodeBlocksProjectWizard.h>
 
 class wxCrafterCB;
 class wxCrafterTabItemData;
@@ -22,7 +23,8 @@ public:
 private:
     void DoClear();
     void BuildTree();
-
+    void DoCreateProject(const ProjectInfo &projectInfo);
+    
     wxTreeItemId GetProjectNode( const wxString &name );
     wxCrafterTabItemData* GetSelectionItemData();
 

@@ -228,7 +228,7 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
         wxC8968InitBitmapResources();
         bBitmapLoaded = true;
     }
-    Create(parent, id, title, wxNullBitmap, pos, style);
+    Create(parent, id, title, wxXmlResource::Get()->LoadBitmap(wxT("wizard")), pos, style);
     
     m_wizardPage82 = new wxWizardPageSimple(this, NULL, NULL, wxNullBitmap);
     m_pages.push_back(m_wizardPage82);
@@ -245,7 +245,11 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     m_staticText98Font.SetWeight(wxFONTWEIGHT_BOLD);
     m_staticText98->SetFont(m_staticText98Font);
     
-    staticBoxSizer96->Add(m_staticText98, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+    staticBoxSizer96->Add(m_staticText98, 0, wxALL|wxALIGN_LEFT, 5);
+    
+    m_staticText112 = new wxStaticText(m_wizardPage82, wxID_ANY, _("Set the project name and location"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    staticBoxSizer96->Add(m_staticText112, 0, wxLEFT|wxRIGHT|wxBOTTOM, 5);
     
     wxFlexGridSizer* flexGridSizer100 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer100->SetFlexibleDirection( wxBOTH );
@@ -298,13 +302,50 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     m_staticText92Font.SetWeight(wxFONTWEIGHT_BOLD);
     m_staticText92->SetFont(m_staticText92Font);
     
-    staticBoxSizer90->Add(m_staticText92, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+    staticBoxSizer90->Add(m_staticText92, 0, wxALL|wxALIGN_LEFT, 5);
+    
+    m_staticText114 = new wxStaticText(m_wizardPage78, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    staticBoxSizer90->Add(m_staticText114, 0, wxLEFT|wxRIGHT|wxBOTTOM, 5);
     
     wxFlexGridSizer* flexGridSizer94 = new wxFlexGridSizer(0, 2, 0, 0);
     flexGridSizer94->SetFlexibleDirection( wxBOTH );
     flexGridSizer94->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer94->AddGrowableCol(1);
+    flexGridSizer94->AddGrowableRow(2);
     
     boxSizer84->Add(flexGridSizer94, 1, wxALL|wxEXPAND, 5);
+    
+    m_staticText116 = new wxStaticText(m_wizardPage78, wxID_ANY, _("wxWidgets installation folder:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer94->Add(m_staticText116, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    
+    m_dirPickerWxPath = new wxDirPickerCtrl(m_wizardPage78, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_DEFAULT_STYLE);
+    m_dirPickerWxPath->SetToolTip(_("Select wxWidgets base installation folder\ne.g. C:\\wxWidgets-3.0.0"));
+    
+    flexGridSizer94->Add(m_dirPickerWxPath, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticText120 = new wxStaticText(m_wizardPage78, wxID_ANY, _("wxWidgets Build Type:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer94->Add(m_staticText120, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    
+    wxArrayString m_choiceBuildTypeArr;
+    m_choiceBuildTypeArr.Add(wxT("Dynamic Library"));
+    m_choiceBuildTypeArr.Add(wxT("Static"));
+    m_choiceBuildType = new wxChoice(m_wizardPage78, wxID_ANY, wxDefaultPosition, wxSize(-1,-1), m_choiceBuildTypeArr, 0);
+    m_choiceBuildType->SetToolTip(_("Select the wxWidgets build type.\nThis can be either static library or dynamic library (dll)"));
+    m_choiceBuildType->SetSelection(0);
+    
+    flexGridSizer94->Add(m_choiceBuildType, 0, wxALL|wxEXPAND, 5);
+    
+    m_staticText124 = new wxStaticText(m_wizardPage78, wxID_ANY, _("wxWidgets Components:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer94->Add(m_staticText124, 0, wxALL|wxALIGN_RIGHT, 5);
+    
+    m_textCtrlComponents = new wxTextCtrl(m_wizardPage78, wxID_ANY, wxT("std\naui"), wxDefaultPosition, wxSize(-1,-1), wxTE_PROCESS_ENTER|wxTE_MULTILINE);
+    m_textCtrlComponents->SetToolTip(_("Select the wxWidgets components to include\nUsually, you don't need more than 'std' and 'aui'\nIf your wxWidgets is a single DLL or library, leave this field\nempty"));
+    
+    flexGridSizer94->Add(m_textCtrlComponents, 1, wxALL|wxEXPAND, 5);
     
     SetSizeHints(500,300);
     if ( GetSizer() ) {
@@ -312,6 +353,7 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     }
     Centre(wxBOTH);
     // Connect events
+    this->Connect(wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler(NewCodeBlocksProjectWizardBase::OnPageChanging), NULL, this);
     m_textCtrlProjectName->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
     m_dirPickerProjectFolder->Connect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
     
@@ -319,6 +361,7 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
 
 NewCodeBlocksProjectWizardBase::~NewCodeBlocksProjectWizardBase()
 {
+    this->Disconnect(wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler(NewCodeBlocksProjectWizardBase::OnPageChanging), NULL, this);
     m_textCtrlProjectName->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
     m_dirPickerProjectFolder->Disconnect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
     

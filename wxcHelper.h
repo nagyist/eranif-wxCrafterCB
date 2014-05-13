@@ -54,5 +54,14 @@ public:
      * @param targetFileName [output]
      */
     static bool ExtractFileFromZip(const wxString& zipPath, const wxString& filename, const wxString& targetDir, wxString &targetFileName);
+    
+    /**
+     * @brief read a file content
+     */
+    static bool ReadFileContent( const wxString& filepath, wxString &content );
+    /**
+     * @brief write file content (replacing any existing content)
+     */
+    static bool WriteFileContent( const wxString& filepath, const wxString &content );
 };
 #endif // WXCHELPER_H

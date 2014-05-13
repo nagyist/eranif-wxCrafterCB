@@ -105,6 +105,7 @@ protected:
 
     wxWizardPageSimple* m_wizardPage82;
     wxStaticText* m_staticText98;
+    wxStaticText* m_staticText112;
     wxStaticText* m_staticText106;
     wxTextCtrl* m_textCtrlProjectName;
     wxStaticText* m_staticText102;
@@ -112,13 +113,21 @@ protected:
     wxStaticText* m_staticTextProjectPathPreview;
     wxWizardPageSimple* m_wizardPage78;
     wxStaticText* m_staticText92;
+    wxStaticText* m_staticText114;
+    wxStaticText* m_staticText116;
+    wxDirPickerCtrl* m_dirPickerWxPath;
+    wxStaticText* m_staticText120;
+    wxChoice* m_choiceBuildType;
+    wxStaticText* m_staticText124;
+    wxTextCtrl* m_textCtrlComponents;
 
 protected:
+    virtual void OnPageChanging(wxWizardEvent& event) { event.Skip(); }
     virtual void OnProjectNameUpdated(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProjectFolderPathChanged(wxFileDirPickerEvent& event) { event.Skip(); }
 
 public:
-    NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Code::Blocks Project"), const wxBitmap& bmp = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
+    NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Code::Blocks + wxCrafter Project"), const wxBitmap& bmp = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
     wxWizardPageSimple* GetFirstPage() const { if(!m_pages.empty()) return m_pages.at(0); return NULL; }
     virtual ~NewCodeBlocksProjectWizardBase();
 };

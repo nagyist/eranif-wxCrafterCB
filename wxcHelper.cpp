@@ -18,27 +18,22 @@ bool wxcHelper::ExtractFileFromZip(const wxString& zipPath, const wxString& file
     // Make sure the target directory exists...
     wxFileName::Mkdir(targetDir, 0777, wxPATH_MKDIR_FULL);
 
-    wxString lowerCaseName(filename);
-    lowerCaseName.MakeLower();
-
     entry = zip.GetNextEntry();
     while ( entry ) {
+        
         wxString name = entry->GetName();
-        name.MakeLower();
-        name.Replace(wxT("\\"), wxT("/"));
-
-        if (name == lowerCaseName) {
-            name.Replace(wxT("/"), wxT("_"));
-            targetFileName = wxString::Format(wxT("%s/%s"), targetDir.c_str(), name.c_str());
-            wxFFileOutputStream out(targetFileName);
+        if (name == filename) {
+            targetFileName = wxFileName(targetDir, filename).GetFullPath();
+            wxFFileOutputStream out( targetFileName );
             zip.Read(out);
             out.Close();
             delete entry;
             return true;
         }
 
-        delete entry;
+        wxDELETE(entry);
         entry = zip.GetNextEntry();
+        
     }
     return false;
 }
@@ -131,4 +126,26 @@ void wxcHelper::GetAllFiles(FilesList& files, const wxString& filterExt)
             }
         }
     }
+}
+
+bool wxcHelper::ReadFileContent(const wxString& filepath, wxString& content)
+{
+    wxFFile fp(filepath, wxT("r+b"));
+    if ( fp.IsOpened() ) {
+        fp.ReadAll(&content, wxConvUTF8);
+        fp.Close();
+        return true;
+    }
+    return false;
+}
+
+bool wxcHelper::WriteFileContent(const wxString& filepath, const wxString& content)
+{
+    wxFFile fp(filepath, wxT("w+b"));
+    if ( fp.IsOpened() ) {
+        fp.Write( content );
+        fp.Close();
+        return true;
+    }
+    return false;
 }

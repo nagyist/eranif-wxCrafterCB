@@ -1,2 +1,1 @@
 - When removing wxcp file from the workspace, remove it from the wxCrafter view
-- Prepare an installer for Windows

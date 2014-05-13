@@ -116,8 +116,8 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
         <SearchPaths/>
       </Completion>
     </Configuration>
-    <Configuration Name="Release" CompilerType="gnu g++" DebuggerType="GNU gdb debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
-      <Compiler Options="-O2;-Wall;$(shell wx-config --cxxflags --debug=no --unicode=yes);" C_Options="-O2;-Wall;$(shell wx-config --cxxflags --debug=no --unicode=yes);" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
+    <Configuration Name="Release" CompilerType="MinGW 4.7.1" DebuggerType="GNU gdb debugger" Type="Static Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">
+      <Compiler Options="-O2;-Wall;$(shell wx-config --cxxflags --debug=no --unicode=yes);" C_Options="" Assembler="" Required="yes" PreCompiledHeader="" PCHInCommandLine="no" UseDifferentPCHFlags="no" PCHFlags="">
         <IncludePath Value="."/>
         <IncludePath Value=".."/>
         <Preprocessor Value="NDEBUG"/>
@@ -126,7 +126,9 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
       <ResourceCompiler Options="" Required="no"/>
       <General OutputFile="$(IntermediateDirectory)/lib$(ProjectName).a" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
-        <![CDATA[]]>
+        <![CDATA[WXWIN=D:\software\CodeBlocks\SDK\wxWidgets-2.8.12
+PATH=$WXWIN\lib\gcc_dll;$PATH
+CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
       </Environment>
       <Debugger IsRemote="no" RemoteHostName="" RemoteHostPort="" DebuggerPath="">
         <DebuggerSearchPaths/>

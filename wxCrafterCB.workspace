@@ -2,8 +2,11 @@
 <CodeLite_Workspace Name="wxCrafterCB" Database="">
   <Project Name="wxCrafterCB" Path="wxCrafterCB.project" Active="Yes"/>
   <Project Name="wxcLib" Path="wxcLib/wxcLib.project" Active="No"/>
+  <Environment>
+    <![CDATA[]]>
+  </Environment>
   <BuildMatrix>
-    <WorkspaceConfiguration Name="Debug" Selected="yes">
+    <WorkspaceConfiguration Name="Debug" Selected="no">
       <Project Name="wxcLib" ConfigName="Debug"/>
       <Project Name="wxCrafterCB" ConfigName="Debug"/>
     </WorkspaceConfiguration>
@@ -12,7 +15,4 @@
       <Project Name="wxcLib" ConfigName="Release"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
-  <Environment>
-    <![CDATA[]]>
-  </Environment>
 </CodeLite_Workspace>

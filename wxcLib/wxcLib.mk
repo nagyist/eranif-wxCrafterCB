@@ -2,12 +2,12 @@
 ## Auto Generated makefile by CodeLite IDE
 ## any manual changes will be erased      
 ##
-## Debug
+## Release
 ProjectName            :=wxcLib
-ConfigurationName      :=Debug
+ConfigurationName      :=Release
 WorkspacePath          := "D:\software\CodeBlocks\wxCrafterCB"
 ProjectPath            := "D:\software\CodeBlocks\wxCrafterCB\wxcLib"
-IntermediateDirectory  :=./Debug
+IntermediateDirectory  :=./Release
 OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
@@ -28,7 +28,7 @@ LibraryPathSwitch      :=-L
 PreprocessorSwitch     :=-D
 SourceSwitch           :=-c 
 OutputFile             :=$(IntermediateDirectory)/lib$(ProjectName).a
-Preprocessors          :=
+Preprocessors          :=$(PreprocessorSwitch)NDEBUG 
 ObjectSwitch           :=-o 
 ArchiveOutputSwitch    := 
 PreprocessOnlySwitch   :=-E 
@@ -37,7 +37,7 @@ PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := 
 RcCompilerName         :=windres
-LinkOptions            :=  $(shell wx-config --debug=no --libs --unicode=yes)
+LinkOptions            :=  -s $(shell wx-config --libs --debug=no --unicode=yes)
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). $(IncludeSwitch).. 
 IncludePCH             := 
 RcIncludePath          := 
@@ -52,8 +52,8 @@ LibPath                := $(LibraryPathSwitch).
 AR       := ar rcus
 CXX      := g++
 CC       := gcc
-CXXFLAGS :=  -g -O0 -Wall $(shell wx-config --cxxflags --debug=no --unicode=yes) $(Preprocessors)
-CFLAGS   :=  -g $(Preprocessors)
+CXXFLAGS :=  -O2 -Wall $(shell wx-config --cxxflags --debug=no --unicode=yes)  $(Preprocessors)
+CFLAGS   :=   $(Preprocessors)
 ASFLAGS  := 
 AS       := as
 
@@ -88,16 +88,16 @@ $(OutputFile): $(Objects)
 	@echo "" > $(IntermediateDirectory)/.d
 	@echo $(Objects0)  > $(ObjectsFileList)
 	$(AR) $(ArchiveOutputSwitch)$(OutputFile) @$(ObjectsFileList) $(ArLibs)
-	@$(MakeDirCommand) "D:\software\CodeBlocks\wxCrafterCB/.build-debug"
-	@echo rebuilt > "D:\software\CodeBlocks\wxCrafterCB/.build-debug/wxcLib"
+	@$(MakeDirCommand) "D:\software\CodeBlocks\wxCrafterCB/.build-release"
+	@echo rebuilt > "D:\software\CodeBlocks\wxCrafterCB/.build-release/wxcLib"
 
 PostBuild:
 	@echo Executing Post Build commands ...
-	copy "$(IntermediateDirectory)\lib$(ProjectName).a" ..\libs
+	copy "$(IntermediateDirectory)\lib$(ProjectName).a" ..\lib
 	@echo Done
 
-./Debug:
-	@$(MakeDirCommand) "./Debug"
+./Release:
+	@$(MakeDirCommand) "./Release"
 
 PreBuild:
 
@@ -194,6 +194,6 @@ clean:
 	$(RM) $(IntermediateDirectory)/*.*
 	$(RM) $(OutputFile)
 	$(RM) $(OutputFile)
-	$(RM) "../.build-debug/wxcLib"
+	$(RM) "../.build-release/wxcLib"
 
 

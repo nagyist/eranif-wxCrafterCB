@@ -26,7 +26,7 @@ Name: "wxCrafterCB"; Description: "Integrating wxCrafter with Code::Blocks IDE";
 SelectDirLabel3 = Please select Code::Blocks installation folder
 
 [Files]
-Source: "wxcrafter-standlone-setup.exe"; DestDir: "{tmp}"; AfterInstall: RunWxCrafterInstaller
+Source: "C:\src\codelite\wxcrafter\Installer\wxcrafter-standlone-setup.exe"; DestDir: "{tmp}"; AfterInstall: RunWxCrafterInstaller
 Source: "wxCrafterCB.zip";  DestDir: "{app}\share\codeblocks"; Flags: ignoreversion;                Components: wxCrafterCB
 Source: "Release\wxCrafterCB.dll"; DestDir: "{app}\share\codeblocks\plugins"; Flags: ignoreversion; Components: wxCrafterCB
 Source: "wx-config.exe"; DestDir: "{app}"; Flags: ignoreversion; Components: wxCrafterCB

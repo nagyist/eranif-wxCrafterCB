@@ -267,7 +267,8 @@ void wxCrafterTab::DoCreateProject(const ProjectInfo& projectInfo)
     wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter.wxcp"),           projectInfo.cbp_path.GetPath(), dummy);
     wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxcrafter_bitmaps.cpp"),    projectInfo.cbp_path.GetPath(), dummy);
     wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("wxCrafterCBTemplate.cbp"),  projectInfo.cbp_path.GetPath(), dummy);
-    
+    wxcHelper::ExtractFileFromZip(zipFile.GetFullPath(), wxT("resources.rc"),             projectInfo.cbp_path.GetPath(), dummy);
+
     // Perform a simple string replace on the cbp file
     wxFileName projectFile(projectInfo.cbp_path.GetPath(), wxT("wxCrafterCBTemplate.cbp"));
     wxString fileContent;

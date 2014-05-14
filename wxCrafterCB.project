@@ -110,7 +110,7 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
         <Library Value="wxcLib"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).dll" IntermediateDirectory="./Release" Command="" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="$(IntermediateDirectory)/$(ProjectName).dll" IntermediateDirectory="./Release" Command="D:/software/CodeBlocks/SDK/codeblocks-13.12/src/devel/codeblocks.exe" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="$(IntermediateDirectory)" PauseExecWhenProcTerminates="yes" IsGUIProgram="yes" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[WXWIN=D:\software\CodeBlocks\SDK\wxWidgets-2.8.12
 PATH=$WXWIN\lib\gcc_dll;$PATH

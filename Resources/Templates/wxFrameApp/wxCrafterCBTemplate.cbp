@@ -1,54 +1,63 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_project_file>
-	<FileVersion major="1" minor="6" />
-	<Project>
-		<Option title="${PROJECT_NAME}" />
-		<Option pch_mode="2" />
-		<Option compiler="gcc" />
-		<Build>
-			<Target title="Debug">
-				<Option output="bin/Debug/${PROJECT_NAME}" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Debug/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O0" />
+<FileVersion major="1" minor="6" />
+    <Project>
+        <Option title="${PROJECT_NAME}" />
+        <Option pch_mode="2" />
+        <Option compiler="gcc" />
+        <Build>
+            <Target title="Debug">
+                <Option output="bin/Debug/${PROJECT_NAME}" prefix_auto="1" extension_auto="1" />
+                <Option object_output="obj/Debug/" />
+                <Option type="1" />
+                <Option compiler="gcc" />
+                <Compiler>
+                    <Add option="-O0" />
                     <Add option="-g" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswud --unicode=yes --debug=yes --cxxflags`" />
-				</Compiler>
-				<Linker>
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswud --unicode=yes --debug=yes --libs ${WX_COMPONENTS}`" />
-				</Linker>
-			</Target>
-			<Target title="Release">
-				<Option output="bin/Release/${PROJECT_NAME}" prefix_auto="1" extension_auto="1" />
-				<Option object_output="obj/Release/" />
-				<Option type="1" />
-				<Option compiler="gcc" />
-				<Compiler>
-					<Add option="-O2" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswu --unicode=yes --debug=no --cxxflags`" />
-				</Compiler>
-				<Linker>
-					<Add option="-s" />
-					<Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}\mswu --unicode=yes --debug=no --libs ${WX_COMPONENTS}`" />
-				</Linker>
-			</Target>
-		</Build>
-		<Compiler>
-			<Add option="-Wall" />
-		</Compiler>
-		<Unit filename="MainFrame.cpp" />
-		<Unit filename="MainFrame.h" />
-		<Unit filename="main.cpp" />
-		<Unit filename="wxcrafter.cpp" />
-		<Unit filename="wxcrafter.h" />
-		<Unit filename="wxcrafter.wxcp" />
-		<Unit filename="wxcrafter_bitmaps.cpp" />
-		<Extensions>
-			<code_completion />
-			<debugger />
-			<envvars />
-		</Extensions>
-	</Project>
+                    <Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}/mswud --unicode=yes --debug=yes --cxxflags`" />
+                </Compiler>
+                <ResourceCompiler>
+                    <Add directory="${WX_PREFIX}/include" />
+                </ResourceCompiler>
+                <Linker>
+                    <Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}/mswud --unicode=yes --debug=yes --libs ${WX_COMPONENTS}`" />
+                </Linker>
+            </Target>
+            <Target title="Release">
+                <Option output="bin/Release/${PROJECT_NAME}" prefix_auto="1" extension_auto="1" />
+                <Option object_output="obj/Release/" />
+                <Option type="1" />
+                <Option compiler="gcc" />
+                <Compiler>
+                    <Add option="-O2" />
+                    <Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}/mswu --unicode=yes --debug=no --cxxflags`" />
+                </Compiler>
+                <ResourceCompiler>
+                    <Add directory="${WX_PREFIX}/include" />
+                </ResourceCompiler>
+                <Linker>
+                    <Add option="-s" />
+                    <Add option="`wx-config --prefix=${WX_PREFIX} --wxcfg=${WX_BUILD_TYPE}/mswu --unicode=yes --debug=no --libs ${WX_COMPONENTS}`" />
+                </Linker>
+            </Target>
+        </Build>
+        <Compiler>
+            <Add option="-Wall" />
+        </Compiler>
+        <Unit filename="MainFrame.cpp" />
+        <Unit filename="MainFrame.h" />
+        <Unit filename="main.cpp" />
+        <Unit filename="wxcrafter.cpp" />
+        <Unit filename="wxcrafter.h" />
+        <Unit filename="wxcrafter.wxcp" />
+        <Unit filename="wxcrafter_bitmaps.cpp" />
+        <Unit filename="resources.rc">
+            <Option compilerVar="WINDRES" />
+        </Unit>
+        <Extensions>
+            <code_completion />
+            <debugger />
+            <envvars />
+        </Extensions>
+    </Project>
 </CodeBlocks_project_file>

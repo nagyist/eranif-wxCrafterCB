@@ -38,13 +38,16 @@ void NewCodeBlocksProjectWizard::OnPageChanging(wxWizardEvent& event)
                 event.Veto();
                 return;
             }
-        } else if ( event.GetPage() == m_pages.at(1) ) {
+        } 
+#ifdef __WXMSW__
+        else if ( event.GetPage() == m_pages.at(1) ) {
             if ( m_dirPickerWxPath->GetPath().IsEmpty() || !wxFileName::DirExists( m_dirPickerWxPath->GetPath()) ) {
                 ::cbMessageBox(_("Please select a valid wxWidgets installation folder"), wxT("wxCrafter"), wxOK|wxICON_WARNING);
                 event.Veto();
                 return;
             }
         }
+#endif
     }
 }
 
@@ -56,4 +59,13 @@ ProjectInfo NewCodeBlocksProjectWizard::GetProjectDetails() const
     pi.wx_build_type = m_choiceBuildType->GetStringSelection();
     pi.wx_prefix = m_dirPickerWxPath->GetPath();
     return pi;
+}
+
+void NewCodeBlocksProjectWizard::OnEnableIfMSW(wxUpdateUIEvent& event)
+{
+#ifdef __WXMSW__
+    event.Enable( true );
+#else
+    event.Enable( false );
+#endif
 }

@@ -18,6 +18,7 @@ public:
     ProjectInfo GetProjectDetails() const;
     
 protected:
+    virtual void OnEnableIfMSW(wxUpdateUIEvent& event);
     virtual void OnPageChanging(wxWizardEvent& event);
     virtual void OnProjectFolderPathChanged(wxFileDirPickerEvent& event);
     virtual void OnProjectNameUpdated(wxCommandEvent& event);

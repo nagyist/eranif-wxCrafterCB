@@ -273,27 +273,37 @@ void wxCrafterTab::DoCreateProject(const ProjectInfo& projectInfo)
     wxFileName projectFile(projectInfo.cbp_path.GetPath(), wxT("wxCrafterCBTemplate.cbp"));
     wxString fileContent;
     wxcHelper::ReadFileContent( projectFile.GetFullPath(), fileContent );
-    
+
     // Replace the place holders
     wxString buildType, components;
     if ( projectInfo.wx_build_type.Contains(wxT("Dynamic")) ) {
         buildType = wxT("gcc_dll");
-        
+
     } else {
         buildType = wxT("gcc_lib");
     }
-    
+
     for(size_t i=0; i<projectInfo.wx_components.GetCount(); ++i) {
         components << projectInfo.wx_components.Item(i) << wxT(",");
     }
+
     if ( !components.IsEmpty() ) {
         components.RemoveLast();
     }
-    
+
     fileContent.Replace(wxT("${PROJECT_NAME}"),  projectInfo.cbp_path.GetName());
+    fileContent.Replace(wxT("${WX_COMPONENTS}"), components);
+
+#ifdef __WXMSW__
     fileContent.Replace(wxT("${WX_BUILD_TYPE}"), buildType);
     fileContent.Replace(wxT("${WX_PREFIX}"),     projectInfo.wx_prefix);
-    fileContent.Replace(wxT("${WX_COMPONENTS}"), components);
+#else
+    // Remove these placeholders on Linux
+    fileContent.Replace(wxT("--prefix=${WX_PREFIX}"),           wxT(""));
+    fileContent.Replace(wxT("--wxcfg=${WX_BUILD_TYPE}/mswud"),  wxT(""));
+    fileContent.Replace(wxT("--wxcfg=${WX_BUILD_TYPE}/mswu"),   wxT(""));
+#endif
+
     wxcHelper::WriteFileContent( projectFile.GetFullPath(), fileContent );
     
     ::wxRenameFile(projectFile.GetFullPath(), projectInfo.cbp_path.GetFullPath());

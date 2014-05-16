@@ -133,7 +133,7 @@ bool wxCrafterCB::EnsureWxCrafterIsRunning()
         m_connector.LaunchAndConnect( wxcrafterPath );
 
     } catch (clSocketException &e) {
-        // FIXME :: report an error
+        ::cbMessageBox(_("Failed to launch wxCrafter"), wxT("wxCrafter"), wxICON_ERROR|wxCENTER|wxOK);
         return false;
     }
     return true;

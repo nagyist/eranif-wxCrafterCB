@@ -122,7 +122,10 @@ void wxcConnector::Shutdown()
         m_wxcrafterProcess->Detach();
 
         // kill wxCrafter
-         wxProcess::Kill( m_wxcrafterProcess->GetPid() );
+        int pid = m_wxcrafterProcess->GetPid();
+        if ( pid > 0 ) {
+            wxProcess::Kill( pid );
+        }
 
     }
     m_wxcrafterProcess = NULL;

@@ -1836,7 +1836,7 @@
 											"border":	5,
 											"gbSpan":	"1,1",
 											"gbPosition":	"0,0",
-											"m_styles":	["wxDIRP_DEFAULT_STYLE", "wxDIRP_USE_TEXTCTRL"],
+											"m_styles":	["wxDIRP_USE_TEXTCTRL"],
 											"m_sizerFlags":	["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
 											"m_properties":	[{
 													"type":	"winid",
@@ -2376,7 +2376,14 @@
 													"m_label":	"Wrap:",
 													"m_value":	"-1"
 												}],
-											"m_events":	[],
+											"m_events":	[{
+													"m_eventName":	"wxEVT_UPDATE_UI",
+													"m_eventClass":	"wxUpdateUIEvent",
+													"m_eventHandler":	"wxUpdateUIEventHandler",
+													"m_functionNameAndSignature":	"OnEnableIfMSW(wxUpdateUIEvent& event)",
+													"m_description":	"Process a wxEVT_UPDATE_UI event",
+													"m_noBody":	false
+												}],
 											"m_children":	[]
 										}, {
 											"m_type":	4432,
@@ -2384,7 +2391,7 @@
 											"border":	5,
 											"gbSpan":	"1,1",
 											"gbPosition":	"0,0",
-											"m_styles":	["wxDIRP_DEFAULT_STYLE"],
+											"m_styles":	["wxDIRP_USE_TEXTCTRL"],
 											"m_sizerFlags":	["wxALL", "wxLEFT", "wxRIGHT", "wxTOP", "wxBOTTOM", "wxEXPAND"],
 											"m_properties":	[{
 													"type":	"winid",
@@ -2451,7 +2458,14 @@
 													"m_label":	"Message:",
 													"m_value":	"Select a folder"
 												}],
-											"m_events":	[],
+											"m_events":	[{
+													"m_eventName":	"wxEVT_UPDATE_UI",
+													"m_eventClass":	"wxUpdateUIEvent",
+													"m_eventHandler":	"wxUpdateUIEventHandler",
+													"m_functionNameAndSignature":	"OnEnableIfMSW(wxUpdateUIEvent& event)",
+													"m_description":	"Process a wxEVT_UPDATE_UI event",
+													"m_noBody":	false
+												}],
 											"m_children":	[]
 										}, {
 											"m_type":	4405,
@@ -2526,7 +2540,14 @@
 													"m_label":	"Wrap:",
 													"m_value":	"-1"
 												}],
-											"m_events":	[],
+											"m_events":	[{
+													"m_eventName":	"wxEVT_UPDATE_UI",
+													"m_eventClass":	"wxUpdateUIEvent",
+													"m_eventHandler":	"wxUpdateUIEventHandler",
+													"m_functionNameAndSignature":	"OnEnableIfMSW(wxUpdateUIEvent& event)",
+													"m_description":	"Process a wxEVT_UPDATE_UI event",
+													"m_noBody":	false
+												}],
 											"m_children":	[]
 										}, {
 											"m_type":	4411,
@@ -2601,7 +2622,14 @@
 													"m_label":	"Selection:",
 													"m_value":	"0"
 												}],
-											"m_events":	[],
+											"m_events":	[{
+													"m_eventName":	"wxEVT_UPDATE_UI",
+													"m_eventClass":	"wxUpdateUIEvent",
+													"m_eventHandler":	"wxUpdateUIEventHandler",
+													"m_functionNameAndSignature":	"OnEnableIfMSW(wxUpdateUIEvent& event)",
+													"m_description":	"Process a wxEVT_UPDATE_UI event",
+													"m_noBody":	false
+												}],
 											"m_children":	[]
 										}, {
 											"m_type":	4405,

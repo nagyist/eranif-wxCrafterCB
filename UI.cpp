@@ -272,7 +272,7 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     
     flexGridSizer100->Add(m_staticText102, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
     
-    m_dirPickerProjectFolder = new wxDirPickerCtrl(m_wizardPage82, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_DEFAULT_STYLE|wxDIRP_USE_TEXTCTRL);
+    m_dirPickerProjectFolder = new wxDirPickerCtrl(m_wizardPage82, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_USE_TEXTCTRL);
     m_dirPickerProjectFolder->SetToolTip(_("Select the project folder"));
     
     flexGridSizer100->Add(m_dirPickerProjectFolder, 0, wxALL|wxEXPAND, 5);
@@ -320,7 +320,7 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     
     flexGridSizer94->Add(m_staticText116, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
     
-    m_dirPickerWxPath = new wxDirPickerCtrl(m_wizardPage78, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_DEFAULT_STYLE);
+    m_dirPickerWxPath = new wxDirPickerCtrl(m_wizardPage78, wxID_ANY, wxEmptyString, wxT("Select a folder"), wxDefaultPosition, wxSize(-1,-1), wxDIRP_USE_TEXTCTRL);
     m_dirPickerWxPath->SetToolTip(_("Select wxWidgets base installation folder\ne.g. C:\\wxWidgets-3.0.0"));
     
     flexGridSizer94->Add(m_dirPickerWxPath, 0, wxALL|wxEXPAND, 5);
@@ -356,6 +356,10 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     this->Connect(wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler(NewCodeBlocksProjectWizardBase::OnPageChanging), NULL, this);
     m_textCtrlProjectName->Connect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
     m_dirPickerProjectFolder->Connect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
+    m_staticText116->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_dirPickerWxPath->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_staticText120->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_choiceBuildType->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
     
 }
 
@@ -364,5 +368,9 @@ NewCodeBlocksProjectWizardBase::~NewCodeBlocksProjectWizardBase()
     this->Disconnect(wxEVT_WIZARD_PAGE_CHANGING, wxWizardEventHandler(NewCodeBlocksProjectWizardBase::OnPageChanging), NULL, this);
     m_textCtrlProjectName->Disconnect(wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler(NewCodeBlocksProjectWizardBase::OnProjectNameUpdated), NULL, this);
     m_dirPickerProjectFolder->Disconnect(wxEVT_COMMAND_DIRPICKER_CHANGED, wxFileDirPickerEventHandler(NewCodeBlocksProjectWizardBase::OnProjectFolderPathChanged), NULL, this);
+    m_staticText116->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_dirPickerWxPath->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_staticText120->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    m_choiceBuildType->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
     
 }

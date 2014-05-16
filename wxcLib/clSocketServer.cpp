@@ -26,7 +26,7 @@ void clSocketServer::CreateServer(const std::string &pipePath) throw (clSocketEx
 
     // Create a socket
     if((m_socket = ::socket(AF_UNIX , SOCK_STREAM , 0 )) == INVALID_SOCKET) {
-        throw clSocketException( "Could not create socket: " + error() );
+        throw clSocketException( wxT("Could not create socket: ") + error() );
     }
     
     // must set reuse-address
@@ -43,7 +43,7 @@ void clSocketServer::CreateServer(const std::string &pipePath) throw (clSocketEx
     
     // Bind
     if( ::bind(m_socket ,(struct sockaddr *)&server , sizeof(server)) == -1) {
-        throw clSocketException( "CreateServer: bind operation failed: " + error() );
+        throw clSocketException( wxT("CreateServer: bind operation failed: ") + error() );
     }
     
     char mode[] = "0777";

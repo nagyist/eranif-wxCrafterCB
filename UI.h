@@ -15,11 +15,12 @@
 #include <wx/sizer.h>
 #include <wx/pen.h>
 #include <wx/aui/auibar.h>
+#include <map>
+#include <wx/menu.h>
 #include <wx/toolbar.h>
 #include <wx/treectrl.h>
 #include <wx/imaglist.h>
 #include <wx/bitmap.h>
-#include <map>
 #include <wx/icon.h>
 #include <wx/dialog.h>
 #include <wx/iconbndl.h>
@@ -125,6 +126,7 @@ protected:
     virtual void OnPageChanging(wxWizardEvent& event) { event.Skip(); }
     virtual void OnProjectNameUpdated(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProjectFolderPathChanged(wxFileDirPickerEvent& event) { event.Skip(); }
+    virtual void OnEnableIfMSW(wxUpdateUIEvent& event) { event.Skip(); }
 
 public:
     NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Code::Blocks + wxCrafter Project"), const wxBitmap& bmp = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);

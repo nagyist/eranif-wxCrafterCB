@@ -35,6 +35,8 @@
     <File Name="wxCrafterTab.h"/>
     <File Name="NewCodeBlocksProjectWizard.h"/>
     <File Name="NewCodeBlocksProjectWizard.cpp"/>
+    <File Name="wxCrafterSettingsDlg.h"/>
+    <File Name="wxCrafterSettingsDlg.cpp"/>
   </VirtualDirectory>
   <Dependencies Name="Release">
     <Project Name="wxcLib"/>
@@ -109,7 +111,7 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
         <LibraryPath Value="Debug"/>
       </Linker>
       <ResourceCompiler Options="" Required="no"/>
-      <General OutputFile="" IntermediateDirectory="./Debug" Command="/usr/bin/codeblocks" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="/tmp" PauseExecWhenProcTerminates="yes" IsGUIProgram="no" IsEnabled="yes"/>
+      <General OutputFile="" IntermediateDirectory="./Debug" Command="/usr/bin/codeblocks" CommandArguments="" UseSeparateDebugArgs="no" DebugArguments="" WorkingDirectory="/tmp" PauseExecWhenProcTerminates="yes" IsGUIProgram="yes" IsEnabled="yes"/>
       <Environment EnvVarSetName="&lt;Use Defaults&gt;" DbgSetName="&lt;Use Defaults&gt;">
         <![CDATA[]]>
       </Environment>
@@ -135,11 +137,11 @@ CB_SRC_DIR=D:\software\CodeBlocks\SDK\codeblocks-13.12]]>
         <CustomPostBuild/>
         <CustomPreBuild/>
       </AdditionalRules>
-      <Completion EnableCpp11="no">
+      <Completion EnableCpp11="yes">
         <ClangCmpFlagsC/>
         <ClangCmpFlags/>
         <ClangPP/>
-        <SearchPaths/>
+        <SearchPaths>/usr/include/wx-2.8</SearchPaths>
       </Completion>
     </Configuration>
     <Configuration Name="Release" CompilerType="MinGW 4.7.1" DebuggerType="GNU gdb debugger" Type="Dynamic Library" BuildCmpWithGlobalSettings="append" BuildLnkWithGlobalSettings="append" BuildResWithGlobalSettings="append">

@@ -34,6 +34,8 @@ wxCrafterTabBase::wxCrafterTabBase(wxWindow* parent, wxWindowID id, const wxPoin
     m_auibar->AddTool(ID_TOOL_NEW_PROJECT, _("Create new Code::Blocks Project"), wxXmlResource::Get()->LoadBitmap(wxT("project")), wxNullBitmap, wxITEM_NORMAL, _("Create new Code::Blocks Project with wxCrafter"), _("Create new Code::Blocks Project with wxCrafter"), NULL);
     
     m_auibar->AddTool(ID_TOOL_NEW_RESOURCE, _("Add wxCrafter file to a project"), wxXmlResource::Get()->LoadBitmap(wxT("new-resource")), wxNullBitmap, wxITEM_NORMAL, _("Add wxCrafter file to a project"), _("Add wxCrafter file to a project"), NULL);
+    
+    m_auibar->AddTool(ID_TOOL_SETTINGS, _("Tool Label"), wxXmlResource::Get()->LoadBitmap(wxT("settings")), wxNullBitmap, wxITEM_NORMAL, wxT(""), wxT(""), NULL);
     m_auibar->Realize();
     
     m_treeCtrl = new wxTreeCtrl(this, wxID_ANY, wxDefaultPosition, wxSize(-1,-1), wxTR_DEFAULT_STYLE|wxTR_HIDE_ROOT);
@@ -49,6 +51,7 @@ wxCrafterTabBase::wxCrafterTabBase(wxWindow* parent, wxWindowID id, const wxPoin
     this->Connect(ID_TOOL_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewCBProject), NULL, this);
     this->Connect(ID_TOOL_NEW_RESOURCE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewWxCrafterFile), NULL, this);
     this->Connect(ID_TOOL_NEW_RESOURCE, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterTabBase::OnNewWxCrafterFileUI), NULL, this);
+    this->Connect(ID_TOOL_SETTINGS, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnSettings), NULL, this);
     m_treeCtrl->Connect(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler(wxCrafterTabBase::OnItemActivated), NULL, this);
     m_treeCtrl->Connect(wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler(wxCrafterTabBase::OnItemMenu), NULL, this);
     
@@ -59,6 +62,7 @@ wxCrafterTabBase::~wxCrafterTabBase()
     this->Disconnect(ID_TOOL_NEW_PROJECT, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewCBProject), NULL, this);
     this->Disconnect(ID_TOOL_NEW_RESOURCE, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnNewWxCrafterFile), NULL, this);
     this->Disconnect(ID_TOOL_NEW_RESOURCE, wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterTabBase::OnNewWxCrafterFileUI), NULL, this);
+    this->Disconnect(ID_TOOL_SETTINGS, wxEVT_COMMAND_TOOL_CLICKED, wxCommandEventHandler(wxCrafterTabBase::OnSettings), NULL, this);
     m_treeCtrl->Disconnect(wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler(wxCrafterTabBase::OnItemActivated), NULL, this);
     m_treeCtrl->Disconnect(wxEVT_COMMAND_TREE_ITEM_MENU, wxTreeEventHandler(wxCrafterTabBase::OnItemMenu), NULL, this);
     
@@ -265,6 +269,9 @@ NewCodeBlocksProjectWizardBase::NewCodeBlocksProjectWizardBase(wxWindow* parent,
     m_textCtrlProjectName = new wxTextCtrl(m_wizardPage82, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), 0);
     m_textCtrlProjectName->SetToolTip(_("Set the project name"));
     m_textCtrlProjectName->SetFocus();
+    #if wxVERSION_NUMBER >= 3000
+    m_textCtrlProjectName->SetHint(wxT(""));
+    #endif
     
     flexGridSizer100->Add(m_textCtrlProjectName, 0, wxALL|wxEXPAND, 5);
     
@@ -372,5 +379,73 @@ NewCodeBlocksProjectWizardBase::~NewCodeBlocksProjectWizardBase()
     m_dirPickerWxPath->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
     m_staticText120->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
     m_choiceBuildType->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(NewCodeBlocksProjectWizardBase::OnEnableIfMSW), NULL, this);
+    
+}
+
+wxCrafterSettingsDlgBase::wxCrafterSettingsDlgBase(wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style)
+    : wxDialog(parent, id, title, pos, size, style)
+{
+    if ( !bBitmapLoaded ) {
+        // We need to initialise the default bitmap handler
+        wxXmlResource::Get()->AddHandler(new wxBitmapXmlHandler);
+        wxC8968InitBitmapResources();
+        bBitmapLoaded = true;
+    }
+    
+    wxBoxSizer* boxSizer136 = new wxBoxSizer(wxVERTICAL);
+    this->SetSizer(boxSizer136);
+    
+    wxFlexGridSizer* flexGridSizer144 = new wxFlexGridSizer(0, 3, 0, 0);
+    flexGridSizer144->SetFlexibleDirection( wxBOTH );
+    flexGridSizer144->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+    flexGridSizer144->AddGrowableCol(1);
+    
+    boxSizer136->Add(flexGridSizer144, 1, wxALL|wxEXPAND, 5);
+    
+    m_staticText146 = new wxStaticText(this, wxID_ANY, _("wxCrafter executable:"), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer144->Add(m_staticText146, 0, wxALL|wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL, 5);
+    
+    m_textCtrlPath = new wxTextCtrl(this, wxID_ANY, wxT(""), wxDefaultPosition, wxSize(-1,-1), 0);
+    m_textCtrlPath->SetFocus();
+    #if wxVERSION_NUMBER >= 3000
+    m_textCtrlPath->SetHint(wxT(""));
+    #endif
+    
+    flexGridSizer144->Add(m_textCtrlPath, 0, wxALL|wxEXPAND, 5);
+    
+    m_buttonBrowse = new wxButton(this, wxID_OPEN, _("Browse..."), wxDefaultPosition, wxSize(-1,-1), 0);
+    
+    flexGridSizer144->Add(m_buttonBrowse, 0, wxALL, 5);
+    
+    m_stdBtnSizer138 = new wxStdDialogButtonSizer();
+    
+    boxSizer136->Add(m_stdBtnSizer138, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 5);
+    
+    m_buttonOK = new wxButton(this, wxID_OK, wxT(""), wxDefaultPosition, wxSize(-1, -1), 0);
+    m_buttonOK->SetDefault();
+    m_stdBtnSizer138->AddButton(m_buttonOK);
+    
+    m_buttonCancel = new wxButton(this, wxID_CANCEL, wxT(""), wxDefaultPosition, wxSize(-1, -1), 0);
+    m_stdBtnSizer138->AddButton(m_buttonCancel);
+    m_stdBtnSizer138->Realize();
+    
+    SetSizeHints(-1,-1);
+    if ( GetSizer() ) {
+         GetSizer()->Fit(this);
+    }
+    Centre(wxBOTH);
+    // Connect events
+    m_buttonBrowse->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxCrafterSettingsDlgBase::OnBrowse), NULL, this);
+    m_buttonOK->Connect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterSettingsDlgBase::OnOKUI), NULL, this);
+    m_buttonOK->Connect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxCrafterSettingsDlgBase::OnOK), NULL, this);
+    
+}
+
+wxCrafterSettingsDlgBase::~wxCrafterSettingsDlgBase()
+{
+    m_buttonBrowse->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxCrafterSettingsDlgBase::OnBrowse), NULL, this);
+    m_buttonOK->Disconnect(wxEVT_UPDATE_UI, wxUpdateUIEventHandler(wxCrafterSettingsDlgBase::OnOKUI), NULL, this);
+    m_buttonOK->Disconnect(wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler(wxCrafterSettingsDlgBase::OnOK), NULL, this);
     
 }

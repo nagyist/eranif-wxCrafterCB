@@ -10,6 +10,7 @@
 #include <wx/menu.h>
 #include "NewCodeBlocksProjectWizard.h"
 #include <configmanager.h>
+#include "wxCrafterSettingsDlg.h"
 
 class wxCrafterTabItemData : public wxTreeItemData
 {
@@ -310,4 +311,10 @@ void wxCrafterTab::DoCreateProject(const ProjectInfo& projectInfo)
     
     // And finally, load the project
     Manager::Get()->GetProjectManager()->LoadProject( projectInfo.cbp_path.GetFullPath() );
+}
+
+void wxCrafterTab::OnSettings(wxCommandEvent& event)
+{
+    wxCrafterSettingsDlg dlg(NULL);
+    dlg.ShowModal();
 }

@@ -36,10 +36,11 @@
 
 class wxCrafterTabBase : public wxPanel
 {
-protected:
+public:
     enum {
         ID_TOOL_NEW_PROJECT = 1001,
         ID_TOOL_NEW_RESOURCE = 1002,
+        ID_TOOL_SETTINGS = 1003,
     };
 protected:
     wxAuiToolBar* m_auibar;
@@ -49,6 +50,7 @@ protected:
     virtual void OnNewCBProject(wxCommandEvent& event) { event.Skip(); }
     virtual void OnNewWxCrafterFile(wxCommandEvent& event) { event.Skip(); }
     virtual void OnNewWxCrafterFileUI(wxUpdateUIEvent& event) { event.Skip(); }
+    virtual void OnSettings(wxCommandEvent& event) { event.Skip(); }
     virtual void OnItemActivated(wxTreeEvent& event) { event.Skip(); }
     virtual void OnItemMenu(wxTreeEvent& event) { event.Skip(); }
 
@@ -132,6 +134,27 @@ public:
     NewCodeBlocksProjectWizardBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("New Code::Blocks + wxCrafter Project"), const wxBitmap& bmp = wxNullBitmap, const wxPoint& pos = wxDefaultPosition, long style = wxDEFAULT_DIALOG_STYLE);
     wxWizardPageSimple* GetFirstPage() const { if(!m_pages.empty()) return m_pages.at(0); return NULL; }
     virtual ~NewCodeBlocksProjectWizardBase();
+};
+
+
+class wxCrafterSettingsDlgBase : public wxDialog
+{
+protected:
+    wxStaticText* m_staticText146;
+    wxTextCtrl* m_textCtrlPath;
+    wxButton* m_buttonBrowse;
+    wxStdDialogButtonSizer* m_stdBtnSizer138;
+    wxButton* m_buttonOK;
+    wxButton* m_buttonCancel;
+
+protected:
+    virtual void OnBrowse(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnOKUI(wxUpdateUIEvent& event) { event.Skip(); }
+    virtual void OnOK(wxCommandEvent& event) { event.Skip(); }
+
+public:
+    wxCrafterSettingsDlgBase(wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("wxCrafter Settings"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize(-1,-1), long style = wxDEFAULT_DIALOG_STYLE|wxRESIZE_BORDER);
+    virtual ~wxCrafterSettingsDlgBase();
 };
 
 #endif

@@ -14,10 +14,7 @@
 #include <editormanager.h>
 #include "wxCrafterTab.h"
 #include <cbauibook.h>
-
-#ifdef __WXMSW__
-#   include <wx/msw/registry.h>
-#endif
+#include "wxCrafterCBSettings.h"
 
 // Register the plugin with Code::Blocks.
 // We are using an anonymous namespace so we don't litter the global one.
@@ -114,22 +111,12 @@ bool wxCrafterCB::EnsureWxCrafterIsRunning()
     
     // Launch wxCrafter process is server mode
     try {
-        wxString wxcrafterPath;
-#ifdef __WXMSW__
-        wxRegKey key(wxRegKey::HKLM, wxT("Software\\wxCrafter\\settings"));
-        if ( !key.QueryValue(wxT("InstallPath"), wxcrafterPath) ) {
-            // FIXME :: report an error
+        wxCrafterCBSettings settings;
+        wxString wxcrafterPath = settings.Load().GetWxcPath();
+        if ( wxcrafterPath.IsEmpty() ) {
+            ::cbMessageBox(_("Could not locate wxCrafter executable path"), wxT("wxCrafter"), wxICON_ERROR|wxCENTER|wxOK);
             return false;
-            
-        } else {
-            wxFileName fnWxc(wxcrafterPath, wxT("wxcrafter.exe"));
-            fnWxc.AppendDir(wxT("Standalone"));
-            wxcrafterPath = fnWxc.GetFullPath();
         }
-        
-#elif defined(__WXGTK__)
-        wxcrafterPath = wxT("/usr/bin/wxcrafter");
-#endif
         m_connector.LaunchAndConnect( wxcrafterPath );
 
     } catch (clSocketException &e) {

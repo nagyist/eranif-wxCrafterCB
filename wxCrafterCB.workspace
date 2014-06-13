@@ -10,13 +10,9 @@
       <Project Name="wxcLib" ConfigName="Debug"/>
       <Project Name="wxCrafterCB" ConfigName="Debug"/>
     </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Release" Selected="no">
+    <WorkspaceConfiguration Name="Release" Selected="yes">
       <Project Name="wxCrafterCB" ConfigName="Release"/>
       <Project Name="wxcLib" ConfigName="Release"/>
-    </WorkspaceConfiguration>
-    <WorkspaceConfiguration Name="Debug_Linux" Selected="yes">
-      <Project Name="wxCrafterCB" ConfigName="Debug_Linux"/>
-      <Project Name="wxcLib" ConfigName="Debug_Linux"/>
     </WorkspaceConfiguration>
   </BuildMatrix>
 </CodeLite_Workspace>

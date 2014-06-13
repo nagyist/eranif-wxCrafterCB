@@ -10,6 +10,7 @@ wxCrafterCBSettings::wxCrafterCBSettings()
 {
 #ifdef __WXMSW__
     // By default read the value from the registry
+    wxString wxcrafterPath;
     wxRegKey key(wxRegKey::HKLM, wxT("Software\\wxCrafter\\settings"));
     if ( key.QueryValue(wxT("InstallPath"), wxcrafterPath) ) {
         wxFileName fnWxc(wxcrafterPath, wxT("wxcrafter.exe"));
